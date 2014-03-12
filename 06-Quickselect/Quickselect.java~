@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.*;
+
+public class Quickselect {
+
+    public int quickselect(int[] a, int k, int low, int high) {
+	if (low >= high) {
+	    return a[low];
+	}
+	else {
+	    int pivot = low + (int)(Math.random() * (high - low));
+	    int[] temp = new int[a.length];
+	    temp[0] = pivot;
+	    int pIndex = 0; // shifts pivot over if necessary
+	    int overP = 1; // keeps track of numbers >= pivot
+
+	    for (int i=low; i<high; i++) {
+		if (a[i] >= a[pivot]) {
+		    temp[pIndex + overP] = a[i];
+		    overP++;
+		}
+		else { // if num is < pivot, 
+		    //shift all elements up to pivot up by 1
+		    for (int j=overP; j > pIndex; j--) {
+			temp[j] = temp[j-1];
+		    }
+		    temp[pIndex] = a[i];
+		}
+	    }
+
+	    // copy over the temp array back into original array
+	    for (int i=0; i<a.length; i++) {
+		a[i] = temp[i];
+	    }
+	    if (pivot == k) {
+		return pivot;
+	    }
+	    else if (pivot > k) {
+		return quickselect(a,k,pivot+1,high);
+	    }
+	    else {
+		return quickselect(a,l,low,pivot);
+	    }
+	}
+    }
+}
