@@ -3,56 +3,60 @@ import java.util.*;
 
 public class Quickselect {
 
-    public static int quickselect(int[] a, int k, int low, int high) {
+    public static int quickselect(Integer[] a, int k, int low, int high) {
 	if (low >= high) {
 	    return a[low];
 	}
 	else {
+	    // select pivot
 	    int pivot = low + (int)(Math.random() * (high - low));
-	    System.out.println(a[pivot]);
-	    // splits into lower and higher halves
-	    // using ArrayList because it's easier
+
+	    // parition
 	    ArrayList<Integer> lower = new ArrayList<Integer>();
-	    ArrayList<Integer> higher = new ArrayList<Integer>();
+	    ArrayList<Integer> upper = new ArrayList<Integer>();
+
 	    for (int i=low; i<=high; i++) {
-		if (a[i] < a[pivot]) {
-		    lower.add(a[i]);
-		}
-		else {
-		    higher.add(a[i]);
+		// does not include pivot 
+		if (i != pivot) {
+		    if (a[i] < a[pivot]) {
+			lower.add(a[i]);
+		    }
+		    else {
+			upper.add(a[i]);
+		    }
 		}
 	    }
 
-	    // copy over new array into original array
-	    for (int i=0; i<a.length; i++) {
-		if (i < lower.size()) {
-		    a[i] = lower.get(i);
-		}
-		else if (i == lower.size()) { // this is the index of pivot
-		    a[i] = a[pivot];
-		}
-		else {
-		    a[i] = higher.get(i-lower.size());
-		}
+	    // copy somewhat ordered numbers into new arraylist
+	    ArrayList<Integer> result = new ArrayList<Integer>();
+	    for (int i=0; i<lower.size(); i++) {
+		result.add(lower.get(i));
 	    }
-	    System.out.println(Arrays.toString(a));
+	    result.add(a[pivot]);
+	    for (int i=0; i<upper.size(); i++) {
+		result.add(upper.get(i));
+	    }
+	    Integer[] temp = result.toArray(new Integer[]{});
 
-	    if (lower.size() == k) {
-		return a[lower.size()];
+	    // if the pivot chosen earlier is the kth number
+	    // note: lower.size() is where the pivot is
+	    if (k == lower.size()) {
+		return result.get(lower.size());
 	    }
-	    else if (lower.size() > k) {
-		return quickselect(a,k,low,lower.size()-1);
+	    else if (k < lower.size()) {
+		return quickselect(temp,k,low,lower.size()-1);
 	    }
-	    else {
-		return quickselect(a,k,lower.size()+1,high);
+	    else if (k > lower.size()) {
+		return quickselect(temp,k,lower.size()+1,high);
 	    }
+	    return -1;
 	}
     }
 
     // compiles but doesn't work
     // having trouble with this
     public static void main(String[] args) {
-	int[] a = {8,3,1,6,8,2,2,6,8,9,0,3};
+	Integer[] a = {8,3,1,6,8,2,2,6,8,9,0,3};
 	System.out.println(quickselect(a,1,0,a.length-1));	
 	System.out.println(quickselect(a,2,0,a.length-1));	
 	System.out.println(quickselect(a,3,0,a.length-1));	
