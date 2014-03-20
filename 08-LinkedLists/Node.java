@@ -21,9 +21,6 @@ public class Node {
 	return next;
     }
 
-    public boolean hasNext() {
-	return getNext() != null;
-
     public String toString() {
 	return "Data: " + data;
     }
