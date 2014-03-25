@@ -1,29 +1,25 @@
 // version of MyLinkedList with dummy node as head
 // changed so head does not count as index 0
+// added instance variable size
 public class MyLinkedList {
 
     private Node head;
+    private int size;
 
     public MyLinkedList() {
 	head = new Node("0");
+	size = 0;
     }
 
-    // adds to front of list
+    // adds to end of list
     public void add(String s) {
-	Node temp = new Node(s);
-	temp.setNext(head.getNext());
-	head.setNext(temp);
-    }
-
-    // prints out linked list
-    public String toString() {
-	String s = head + "\n";
+	Node n = new Node(s);
 	Node temp = head;
-	while (temp.getNext() != null) {
-	    s = s + "Data: " + temp.getNext().getData() + "\n";
+	for (int i=0; i<size; i++) {
 	    temp = temp.getNext();
 	}
-	return s;
+	temp.setNext(n);
+	size++;
     }
 
     // adds to index i
@@ -35,6 +31,7 @@ public class MyLinkedList {
 	}
 	temp.setNext(current.getNext());
 	current.setNext(temp);
+	size++;
     }
 
     // returns node at index i
@@ -77,7 +74,7 @@ public class MyLinkedList {
     // returns location of first string in list with value s
     public int find(String s) {
 	Node current = head;
-	for (int i=0; i<length()+1; i++) {
+	for (int i=0; i<length(); i++) {
 	    if (current.getData() == s) {
 		return i-1;
 	    }
@@ -87,13 +84,17 @@ public class MyLinkedList {
     }
 
     public int length() {
-	int count = 0;
-	Node current = head;
-	while (current.getNext() != null) {
-	    count++;
-	    current = current.getNext();
-	}
-	return count;
+	return size;
     }
 
+    // prints out linked list
+    public String toString() {
+	String s = head + "\n";
+	Node temp = head;
+	while (temp.getNext() != null) {
+	    s = s + "Data: " + temp.getNext().getData() + "\n";
+	    temp = temp.getNext();
+	}
+	return s;
+    }
 }
