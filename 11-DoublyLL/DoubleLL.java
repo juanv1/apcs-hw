@@ -1,5 +1,5 @@
-// Jane Chen
-// Cardy Wei
+// Jane Chen and Cardy Wei
+// DoubleLL with the ends node connected to form a loop
 
 public class DoubleLL<E> {
 
@@ -29,16 +29,50 @@ public class DoubleLL<E> {
         Node<E> n = new Node<E>(d);        
         if (current == null) {
             current = n;
+	    n.next = n;
+	    n.prev = n;
 	}
         else {
             n.next = current;
+	    n.prev = current.prev;
             if (current.prev != null) {
                 current.prev.next = n;
 	    }
-	    n.prev = current.prev;
             current.prev = n;
             current = n;
         }
+    }
+
+    public void remove() {
+	if (current == null || current.next == current.prev) {
+	    current = null;
+	}
+	else {
+	    current.next.prev = current.prev;
+	    current.prev.next = current.next;
+	    current = current.next;
+	}
+    }
+
+    public int find(E d) {
+	if (current == null) {
+	    return -1;
+	}
+	else if (current.getData() == d) {
+	    return 0;
+	}
+	else {
+	    Node <E> tmp = current.getNext();
+	    int i=1;
+	    while (tmp != current) {
+		if (tmp.getData() == d) {
+		    return i;
+		}
+		i++;
+		tmp = tmp.getNext();
+	    }
+	    return -1;
+	}
     }
     
     public E getCurrent() { 
@@ -58,6 +92,20 @@ public class DoubleLL<E> {
     public String toString() {
         if ( current == null )
             return "";        
+	Node<E> tmp = current;
+	String s = current.getData() + " ";
+	tmp = tmp.getNext();
+	while (tmp != current) {
+	    s = s + tmp.getData() + " ";
+	    tmp = tmp.getNext();
+	}
+	return s;
+    }
+
+    /*
+    public String toString() {
+	if ( current == null )
+	    return "";
         while ( current.getPrev() != null )
             current = current.getPrev();
         
@@ -69,6 +117,7 @@ public class DoubleLL<E> {
         }        
         return s;
     }
+    */
     
     public static void main(String[] args) {
         DoubleLL<String> L = new DoubleLL<String>();
@@ -79,12 +128,26 @@ public class DoubleLL<E> {
         System.out.println(L);
         L.insert("three");
         System.out.println(L);
-        // First test up to here
+
         System.out.println(L.getCurrent());
         L.forward();
         System.out.println(L.getCurrent());
+
         L.insert("inserted");
+	System.out.println(L.getCurrent());
         System.out.println(L);
-        // then test again to here
+
+	L.back();
+	System.out.println(L.getCurrent());
+	System.out.println(L);
+	L.remove();
+	System.out.println(L.getCurrent());
+	System.out.println(L);
+	System.out.println(L.find("inserted"));
+	System.out.println(L.find("world"));
+	System.out.println(L.find("hello"));
+	System.out.println(L.find("three"));
+
+
     }
 }
