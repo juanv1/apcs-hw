@@ -8,24 +8,26 @@ public class RPN {
     public static Double calculate(String s) {
 	Double tmp1 = stack.pop();
 	Double tmp2 = stack.pop();
-	if (s == "+") {
-	    stack.push(tmp1 + tmp2);
+	Double ans = 0.0;
+	if (s.equals("+")) {
+	    ans = tmp1+tmp2;
 	}
-	else if (s == "-") {
-	    stack.push(tmp1 - tmp2);
+	else if (s.equals("-")) {
+	    ans = tmp1-tmp2;
 	}
-	else if (s == "*") {
-	    stack.push(tmp1 * tmp2);
+	else if (s.equals("*")) {
+	    ans = tmp1*tmp2;
 	}
-	else if (s == "/") {
-	    stack.push(tmp1 / tmp2);
+	else if (s.equals("/")) {
+	    ans = tmp1/tmp2;
 	}
-	return stack.peek();
+	stack.push(ans);
+	return ans;
     }
 
-    // INCOMPLETE
-    // it doesn't actually calculate corrently but i will fix this when i get the chance
-
+    // returns an exception if less than two elements are in the array
+    // returns an exception if anything other than "clear", "stop",numbers,
+    // and operators are entered in
     public static void main(String[] args) {
 	Scanner scan = new Scanner(System.in);
 	System.out.println("Instructions:");
@@ -36,6 +38,10 @@ public class RPN {
 		|| input.equals("*") || input.equals("/")) {
 		System.out.println(calculate(input));
 	    }
+	    else if (input.equals("clear")) {
+		stack = new MyStack();
+	    }
+
 	    else {
 		Double tmpD = Double.parseDouble(input);
 		stack.push(tmpD);
