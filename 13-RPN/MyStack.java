@@ -20,7 +20,6 @@ public class MyStack {
 
     public Double pop() {
 	Double s = stack[top];
-	stack[top] = null;
 	top--;
 	return s;
     }
