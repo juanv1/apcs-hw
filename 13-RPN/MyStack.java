@@ -1,5 +1,7 @@
 public class MyStack {
 
+    // changed the stack to an array of Doubles for the calculator
+
     private static Double[] stack;
     private static int top;
     private static int maxSize;
