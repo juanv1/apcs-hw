@@ -1,11 +1,12 @@
-public Node {
+public class Node {
 
     private int data;
-    private Node left;
-    private Node right;
+    private Node left,right;
 
     public Node(int n) {
 	data = n;
+	left = right = null; //left and right are null by default
+	//right = null;
     }
 
     public Node(int n, Node L, Node R) {
@@ -22,17 +23,27 @@ public Node {
 	return data;
     }
 
+    /*
     public void setChild(Node n) {
-	if (left == null) {
+	if (left == null && n.getData() < this.getData()) {
 	    left = n;
 	}
-	else if (right == null) {
+	else if (right == null && n.getData() >= this.getData()) {
 	    right = n;
 	}
+    }
+    */
+
+    public void setLeft(Node n) {
+	left = n;
     }
 
     public Node getLeft() {
 	return left;
+    }
+
+    public void setRight(Node n) {
+	right = n;
     }
 
     public Node getRight() {
